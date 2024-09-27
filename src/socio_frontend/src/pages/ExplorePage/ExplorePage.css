@@ -1,0 +1,64 @@
+#ExplorePage{
+    height: 100%;
+    overflow: scroll;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+ion-grid{
+    width: 100%;
+}
+
+.video-card {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.custom-searchbar {
+    --border-radius: 24px;
+    --height: 40px;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --icon-color: #606060;
+    --placeholder-color: #606060;
+    width: 100%;
+    max-width: 600px;
+    border: solid 1px var(--ion-border);
+    border-radius: 10px;
+}
+
+.video-thumbnail {
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+}
+
+.video-info {
+    width: 100%;
+    display: flex;
+    padding: 10px;
+}
+
+.video-info-grid{
+    width: 100%;
+}
+
+.video-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.video-channel, .video-views-time {
+    font-size: 14px;
+    color: #606060;
+    margin: 2px 0;
+}

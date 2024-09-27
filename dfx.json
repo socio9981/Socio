@@ -12,18 +12,45 @@
       "wasm": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity_dev.wasm.gz"
     },
     "socio_backend": {
+      "dependencies": [
+        "socio_media",
+        "socio_chats"
+      ],
       "main": "src/socio_backend/main.mo",
       "type": "motoko"
     },
     "socio_frontend": {
       "dependencies": [
-        "socio_backend"
+        "socio_backend",
+        "socio_creators_storage"
       ],
       "source": [
         "src/socio_frontend/dist"
       ],
       "type": "assets",
       "workspace": "socio_frontend"
+    },
+    "socio_media": {
+      "main": "src/socio_media/media.mo",
+      "type": "motoko"
+    },
+    "socio_chats": {
+      "main": "src/socio_chats/chats.mo",
+      "type": "motoko"
+    },
+    "socio_creators": {
+      "dependencies": [
+        "socio_creators_storage"
+      ],
+      "source": [
+        "src/socio_creators/dist"
+      ],
+      "type": "assets",
+      "workspace": "socio_creators"
+    },
+    "socio_creators_storage": {
+      "main": "src/socio_creators_storage/creators.mo",
+      "type": "motoko"
     }
   },
   "defaults": {

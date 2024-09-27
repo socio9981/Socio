@@ -1,0 +1,268 @@
+#LandingPage {
+    padding: 5px;
+    width: 85%;
+    margin: auto;
+
+    #socio-logo {
+        width: 100px;
+        height: 100px;
+    }
+
+    .large-button {
+        font-size: 18px;
+    }
+
+    .large-button:hover {
+        background-color: var(--ion-color-primary);
+        border-radius: 3px;
+        color: var(--ion-color-dark);
+    }
+
+    .home-content,
+    .about-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        max-width: 100%;
+        padding: 20px;
+    }
+
+    #title_socio {
+        font-size: 100px;
+        margin: 0;
+        margin-bottom: 10px;
+        color: var(--ion-color-primary);
+    }
+
+    .text-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        flex: 1;
+        min-width: 300px;
+    }
+
+    .about-content .text-container {
+        font-size: 20px;
+    }
+
+    .svg-container {
+        flex: 1;
+        min-width: 300px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .typewriter {
+        overflow: hidden;
+        white-space: nowrap;
+        margin: 0 auto;
+        letter-spacing: .15em;
+        animation: typing 3.5s steps(30, end), blink-caret .75s step-end infinite;
+    }
+
+    .tagline {
+        font-size: 30px;
+        margin: 0;
+    }
+
+    .button-container {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .btn {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--ion-color-primary);
+    }
+
+    .login-btn {
+        background-color: var(--ion-color-primary);
+    }
+
+    .tutorial-btn {
+        background-color: var(--ion-color-secondary);
+    }
+
+    @keyframes typing {
+        from {
+            width: 0;
+        }
+
+        to {
+            width: 100%;
+        }
+    }
+
+    @keyframes blink-caret {
+
+        0%,
+        100% {
+            border-color: transparent;
+        }
+
+        50% {
+            border-color: var(--ion-color-primary);
+        }
+    }
+
+    .feature-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 515px;
+    }
+
+    .feature-image img {
+        margin: 0;
+        height: 300px;
+    }
+
+    .founder-section,.benefits-section {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .benefits-section img{
+        width: 50px;
+        margin-right: 20px;
+    }
+
+    .benefits-section p{
+        font-size: 30px;
+    }
+
+    .benefits-section ion-item{
+        margin-top: 10px;
+    }
+
+    .founder-image {
+        width: 300px;
+        height: 300px;
+        border-radius: 10px;
+        margin-right: 20px;
+    }
+
+    .founder-text {
+        max-width: 600px;
+    }
+
+    .founder-text h3 {
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .founder-text p {
+        font-size: 25px;
+        margin: 5px 0;
+    }
+
+    #team,#benefits{
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    #team h3{
+        text-align: left !important;
+    }
+
+    #Founder,#question{
+        font-size: 50px;
+    }
+
+    #founder_span{
+        color: var(--ion-color-primary);
+    }
+
+    #supporter-logos{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        flex-wrap: wrap;
+
+        .supporter-image{
+            width: 40%;
+            margin-top: 10px;
+        }
+    }
+
+    #about,
+    #features,
+    #team,
+    #supporters {
+        h2 {
+            font-size: 50px;
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 20px;
+            text-align: center;
+        }
+    }
+
+    #footer-p{
+        text-align: center ;
+        font-size: 20px;
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    #LandingPage {
+        width: 100%;
+
+        #socio-logo {
+            width: 80px;
+            height: 80px;
+        }
+
+        .small-button {
+            font-size: 16px;
+        }
+
+        .text-container {
+            align-items: center;
+            width: 100% !important;
+        }
+
+        #title_socio {
+            font-size: 50px;
+        }
+
+        .tagline {
+            font-size: 20px;
+        }
+
+        .feature-item {
+            min-height: max-content;
+        }
+
+        #team,#benefits{
+            flex-direction: column;
+        }
+
+        .founder-section,.benefits-section {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        #team h3,#benfits h3{
+            text-align: center !important;
+        }
+
+        .founder-image{
+            margin: auto;
+        }
+    }
+}

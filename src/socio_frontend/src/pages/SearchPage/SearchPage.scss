@@ -1,0 +1,43 @@
+#SearchPage {
+    height: 100%;
+
+    .search-page {
+        padding: 16px;
+
+        .search-result-item {
+            cursor: pointer;
+        }
+
+        .no-searches {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 75%;
+            font-size: 25px;
+        }
+
+    }
+
+    ion-searchbar {
+        border: solid 1px var(--ion-border);
+        border-radius: 10px;
+    }
+
+    ion-item {
+        --padding-start: 0;
+        --inner-padding-end: 0;
+        --inner-padding-start: 0;
+        --inner-padding-top: 8px;
+        --inner-padding-bottom: 8px;
+    }
+
+    ion-avatar {
+        width: 40px;
+        height: 40px;
+    }
+
+    ion-label h2 {
+        font-size: 16px;
+        font-weight: bold;
+    }
+}

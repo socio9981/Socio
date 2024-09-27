@@ -1,0 +1,20 @@
+{
+  "socio_backend": {
+    "ic": "axfp6-baaaa-aaaap-qh7xa-cai"
+  },
+  "socio_chats": {
+    "ic": "aqejk-myaaa-aaaap-qh7xq-cai"
+  },
+  "socio_creators": {
+    "ic": "g7ppp-zyaaa-aaaap-qkfrq-cai"
+  },
+  "socio_creators_storage": {
+    "ic": "gki6c-yqaaa-aaaap-qkfsa-cai"
+  },
+  "socio_frontend": {
+    "ic": "cnzhc-7qaaa-aaaap-qh7ya-cai"
+  },
+  "socio_media": {
+    "ic": "ckybw-siaaa-aaaap-qh7yq-cai"
+  }
+}

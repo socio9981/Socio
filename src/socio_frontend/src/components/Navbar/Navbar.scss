@@ -1,0 +1,17 @@
+#NavBar{
+    ion-tab-button{
+        color: var(--ion-tab-button-color);
+    }
+
+    ion-router-outlet{
+        border: solid 1px var(--ion-border);
+    }
+
+    .active-nav-item{
+        color: var(--ion-color-primary);
+
+        ion-icon {
+            color: var(--ion-color-primary);
+        }
+    }
+}

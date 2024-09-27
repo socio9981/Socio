@@ -1,0 +1,59 @@
+#container {
+    height: 100%;
+    display: flex;
+
+    #top-nav-bar {
+        height: 8%;
+        position: relative;
+
+        ion-tab-bar{
+            height: 100%;
+        }
+    }
+
+    .top-nav-item-0{
+        position: absolute;
+        left: 0;
+    }
+
+    .top-nav-item-1{
+        position: absolute;
+        right: 15%;
+    }
+
+    .top-nav-item-2{
+        position: absolute;
+        right: 0;
+    }
+
+    ion-tab-button{
+        color: var(--ion-tab-button-color);
+    }
+
+    .active-icon-top{
+        color: var(--ion-color-primary);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #container {
+        flex-direction: column;
+
+        #top-nav-bar {
+            
+            .top-nav-item-1{
+                font-size: 25px;
+                top: 10px;
+            }
+
+            .top-nav-item-2{
+                font-size: 25px;
+                top: 10px;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+   
+}

@@ -1,0 +1,95 @@
+#HomePage {
+    height: 100%;
+    display: flex;
+
+    .left-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 75%;
+        overflow: scroll;
+
+        .stories-section {
+            margin: 20px 0;
+            width: 90%;
+
+            #stories-list {
+                width: 100%;
+                display: flex;
+                gap: 10px;
+                overflow: scroll;
+
+                .my-story{
+                    position: relative;
+                }
+
+                .story-item {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+
+                    #add-story {
+                        position: absolute;
+                        top: 50%;
+                        right: 5%;
+                        font-size: 1rem;
+                        background-color: var(--ion-color-primary);
+                        border-radius: 50%;
+                    }
+                }
+            }
+
+            #stories-list::-webkit-scrollbar {
+                display: none;
+            }
+        }
+
+        .feed-section {
+            width: 90%;
+
+            ion-list{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                ion-card{
+                    border: solid 1px var(--ion-border);
+                    width: 70%;
+
+                    ion-card-header{
+                        padding: 5px;
+                    }
+                }
+            }
+        }
+    }
+
+    .right-section {
+        padding-right: 10px;
+        border-left: solid 1px;
+        width: 25%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #HomePage {
+        .left-section {
+            flex: 1;
+
+            .stories-section {
+                width: 100%;
+                margin: 5px 0;
+            }
+
+            .feed-section {
+                width: 100%;
+
+                ion-list{
+                    ion-card{
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}

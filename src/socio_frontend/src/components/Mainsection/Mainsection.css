@@ -1,0 +1,14 @@
+#mainsection{
+    margin: 0;
+    flex: 1;
+    border: solid 1px var(--ion-border);
+    height: calc(100% - 20px);
+    margin: 10px;
+}
+
+@media screen and (max-width: 768px){
+    #mainsection{
+        height: 100%;
+        margin: 5px;
+    }
+}

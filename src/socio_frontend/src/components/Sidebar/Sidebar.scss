@@ -1,0 +1,115 @@
+.sidebar {
+
+    margin: 0;
+    border: solid 1px var(--ion-border);
+    height: calc(100% - 20px);
+    margin: 10px;
+    transition: width 0.4s ease;
+
+    a{
+        text-decoration: none;
+    }
+
+    #sidebar-menu {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    ion-item {
+        font-size: 25px;
+        font-weight: bolder;
+        margin-top: 10px;
+        justify-content: center;
+    }
+
+    ion-item:hover {
+        cursor: pointer;
+    }
+
+    ion-icon {
+        font-size: 25px;
+        color: var(--ion-icon-color);
+    }
+
+    .more-icon-container {
+        margin-top: auto !important;
+    }
+
+    .active-item {
+        color: var(--ion-color-primary);
+
+        ion-icon {
+            color: var(--ion-color-primary);
+        }
+    }
+
+    .more-icon-container {
+        position: relative;
+    }
+
+    #more-icon {
+        position: relative;
+        z-index: 1;
+    }
+
+    .more-options-card {
+        position: absolute;
+        bottom: 50%;
+        left: 0;
+        z-index: 100;
+        width: max-content;
+        border: solid 1px var(--ion-border);
+        /* Ensure background color is set */
+        /* Rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+        /* 3D shadow effect */
+        transform: translateY(-10px);
+        /* Slightly lift the card */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        /* Smooth transition for hover effect */
+        ion-item{
+
+            p{
+                font-size: 15px;
+                font-weight: bolder;
+            }
+
+            .icon-label{
+                margin-left: 30px;
+            }
+
+            .icon-label.appearance{
+                margin-left: 20px;
+            }
+
+            ion-icon{
+                margin: 0;
+            }
+        }
+    }
+}
+
+.sidebar.min {
+    transition: width 0.4s ease;
+    ion-icon {
+        margin-right: 0;
+    }
+
+    ion-item {
+        display: flex;
+        width: max-content;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .icon-label {
+        display: none;
+    }
+
+    .more-options-card{
+        ion-card-content{
+            padding: 0;
+        }
+    }
+}

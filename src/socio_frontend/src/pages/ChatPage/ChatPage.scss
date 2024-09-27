@@ -1,0 +1,143 @@
+#ChatPage {
+    height: 100%;
+    display: flex;
+
+    #chat-list {
+        width: 25%;
+    }
+
+    #chat-container {
+        width: 75%;
+        border-left: solid 1px var(--ion-border);
+        display: flex;
+        flex-direction: column;
+
+        .no-chat-content{
+            border: solid 1px;
+            height: 100%;
+            font-size: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .chat-list {
+        max-height: 80vh;
+        overflow-y: auto;
+
+        .no-chats-list{
+            margin-top: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+        }
+    }
+
+    .search-bar {
+        width: 95%;
+        border-radius: 10px;
+        margin-left: 2.5%;
+        border: solid 1px var(--ion-border);
+    }
+
+    .message-preview {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .chat-header {
+        border-bottom: solid 1px var(--ion-border);
+        height: max-content;
+        display: flex;
+    }
+ 
+    .messages-section {
+        border-bottom: solid 1px var(--ion-border);
+        height: 100%;
+        overflow-y: scroll;
+
+        ion-skeleton-text{
+            height: 50px;
+        }
+
+        #no-messages-yet{
+            border: solid 1px var(--ion-border);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            p{
+                margin: 0;
+                font-size: 25px;
+            }
+        }
+    }
+
+    // .messages-section.messages-loaded{
+    //     display: flex;
+    //     flex-direction: column;
+    //     justify-content: flex-end;
+    // }
+
+    #selected-chat-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-top: 10%;
+    }
+
+    ion-back-button {
+        width: 10px;
+    }
+
+    .message {
+        margin: 5px 0;
+        border-radius: 10px;
+        max-width: 70%;
+
+        p,img{
+            margin: 0;
+            border: solid 1px var(--ion-border);
+            border-radius: 10px;
+            width: max-content;
+            padding: 10px;
+        }
+    }
+
+    .sent {
+        margin-left: auto;
+        margin-right: 10px;
+        display: flex;
+
+        p,img{
+            margin-left: auto;
+        }
+    }
+
+    .received {
+        margin-left: 10px;
+    }
+
+    .message img,
+    .message video {
+        max-width: 100%;
+        border-radius: 10px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #ChatPage {
+        .open {
+            width: 100% !important;
+        }
+
+        .close {
+            display: none !important;
+        }
+    }
+}

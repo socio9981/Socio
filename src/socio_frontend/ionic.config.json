@@ -1,0 +1,7 @@
+{
+  "name": "socio_frontend",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}

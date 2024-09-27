@@ -1,0 +1,15 @@
+#NotificationsPage{
+    height: 100%;
+}
+
+.no-notifications{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 75%;
+    font-size: 25px;
+}
+
+.thumbnail{
+    border-radius: 10px;
+}
