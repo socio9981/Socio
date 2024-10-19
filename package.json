@@ -18,5 +18,8 @@
   ],
   "devDependencies": {
     "vite-plugin-static-copy": "^1.0.6"
+  },
+  "dependencies": {
+    "react-router-dom": "^5.3.4"
   }
 }

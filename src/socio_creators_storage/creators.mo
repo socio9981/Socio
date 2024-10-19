@@ -4,6 +4,7 @@ import Text "mo:base/Text";
 import Blob "mo:base/Blob";
 import Array "mo:base/Array";
 import Int "mo:base/Int";
+import Iter "mo:base/Iter";
 
 actor {
 
@@ -20,14 +21,29 @@ actor {
         title : Text;
         description : Text;
         video : Blob;
+        thumbnail: Blob;
         likes : [Text];
         views : Int;
         date : Text;
     };
 
     private var creators : HashMap.HashMap<Principal, Creator> = HashMap.HashMap<Principal, Creator>(10, Principal.equal, Principal.hash);
+    private stable var upgradeCreators : [(Principal, Creator)] = [];
 
     private var media : HashMap.HashMap<Text, Media> = HashMap.HashMap<Text, Media>(10, Text.equal, Text.hash);
+    private stable var upgradeMedia : [(Text, Media)] = [];
+
+    system func preupgrade() {
+        upgradeCreators := Iter.toArray(creators.entries());
+        upgradeMedia := Iter.toArray(media.entries());
+    };
+
+    system func postupgrade() {
+        media := HashMap.fromIter(upgradeMedia.vals(), 10, Text.equal, Text.hash);
+        upgradeMedia := [];
+        creators := HashMap.fromIter(upgradeCreators.vals(), 10, Principal.equal, Principal.hash);
+        upgradeCreators := [];
+    };
 
     public shared (msg) func caller() : async Principal {
         return msg.caller;
@@ -62,7 +78,7 @@ actor {
         };
     };
 
-    public shared (msg) func uploadMedia(title : Text, description : Text, video : Blob, tyepOfVideo : Text, date : Text, id : Text) : async Text {
+    public shared (msg) func uploadMedia(title : Text, description : Text, video : Blob, thumbnail: Blob, tyepOfVideo : Text, date : Text, id : Text) : async Text {
         let currentCreator = creators.get(msg.caller);
         switch (currentCreator) {
             case (?currentCreator) {
@@ -70,6 +86,7 @@ actor {
                     title = title;
                     description = description;
                     video = video;
+                    thumbnail = thumbnail;
                     likes = [];
                     views = 0;
                     date = date;
@@ -115,6 +132,12 @@ actor {
                 return null;
             };
         };
+    };
+
+    public func clearStorage() : async Bool {
+        creators := HashMap.HashMap<Principal, Creator>(10, Principal.equal, Principal.hash);
+        media := HashMap.HashMap<Text, Media>(10, Text.equal, Text.hash);
+        return true;
     };
 
 };

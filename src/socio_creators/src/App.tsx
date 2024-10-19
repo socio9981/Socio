@@ -1,4 +1,5 @@
 import { IonApp, IonButton, setupIonicReact } from '@ionic/react';
+import Register from './components/creator_signing/Register.jsx';
 import Home from './pages/Home.jsx';
 
 /* Core CSS required for Ionic components to work properly */
@@ -34,11 +35,16 @@ import { useEffect, useState, useContext } from 'react';
 
 import { GlobalContext, GlobalProvider } from './store/GlobalStore.jsx';
 import { Preferences } from '@capacitor/preferences';
+import CreatorSigning from './components/creator_signing/CreatorSigning.jsx';
 setupIonicReact();
 
 const App: React.FC = () => {
   const { state, dispatch } = useContext(GlobalContext);
-  const { theme, actor, loggedIn, user } = state;
+  const { theme, actor, loggedIn, creator } = state;
+
+  useEffect(() => {
+    console.log(creator);
+  }, [creator]);
 
   useEffect(() => {
     const applyTheme = async () => {
@@ -74,8 +80,17 @@ const App: React.FC = () => {
   };
 
   return (
-    <IonApp>
-      <Home />
+    <IonApp className='App'>
+      {
+        loggedIn ? (
+          creator ?
+          <Home /> : 
+            <Register />
+          
+        ) : (
+          <CreatorSigning />
+        )
+      }
     </IonApp>
   );
 };

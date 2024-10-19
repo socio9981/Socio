@@ -125,6 +125,10 @@ export default function ProfilePage({ profileUser, type }) {
         }
     }, [profileUser.tagged]);
 
+    useEffect(() => {
+        console.log("pr")
+    }, []);
+
     async function follow() {
         setDisableButton(true);
         let chatId = generateChatID(user.username, profileUser.username);

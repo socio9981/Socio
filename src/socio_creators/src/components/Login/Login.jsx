@@ -1,7 +1,7 @@
 import { IonIcon } from "@ionic/react";
 import { logInOutline } from "ionicons/icons";
 
-import { createActor, socio_backend } from "../../../../declarations/socio_backend/index";
+import { createActor, socio_creators_storage } from "../../../../declarations/socio_creators_storage/index";
 import { HttpAgent } from "@dfinity/agent";
 import { AuthClient } from "@dfinity/auth-client";
 import { useIonLoading, useIonToast, IonButton } from "@ionic/react";
@@ -12,7 +12,7 @@ export default function Login() {
 
     const { dispatch } = useContext(GlobalContext);
 
-    var actor1 = socio_backend;
+    var actor1 = socio_creators_storage;
 
     const [actor, setActor] = useState(null);
     const [II_URL, setII_URL] = useState("");
@@ -37,17 +37,18 @@ export default function Login() {
         await present({ message: "Logging in..." });
         const identity = authClient.getIdentity();
         const agent = new HttpAgent({ identity });
-        actor1 = createActor(process.env.CANISTER_ID_SOCIO_BACKEND, {
+        actor1 = createActor(process.env.CANISTER_ID_SOCIO_CREATORS_STORAGE, {
             agent,
         });
 
         setActor(actor1);
-        const currentUser = await actor1.getUser();
+        const currentCreator = await actor1.loginAsCreator();
+        
         dispatch({ type: 'SET_ACTOR', payload: actor1 });
-        if (currentUser.length === 0) {
-            dispatch({ type: 'SET_USER', payload: currentUser });
+        if (currentCreator.length === 0) {
+            dispatch({ type: 'SET_CREATOR', payload: currentCreator });
         } else {
-            dispatch({ type: 'SET_USER', payload: currentUser[0] });
+            dispatch({ type: 'SET_CREATOR', payload: currentCreator[0] });
         }
 
         dispatch({ type: 'SET_LOGGED_IN', payload: true });

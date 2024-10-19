@@ -19,7 +19,7 @@ export default function Mainsection({ user, profileType }) {
                 <Route exact={true} path="/" render={() => <HomePage />} />
                 <Route exact={true} path="/chat" render={() => <ChatPage />} />
                 <Route exact={true} path="/explore" render={() => <ExplorePage />} />
-                <Route exact={true} path="/Profile" render={() => <ProfilePage profileUser={user} type={profileType} />} />
+                <Route exact={true} path="/profile" render={() => <ProfilePage profileUser={user} type={profileType} />} />
                 <Route exact={true} path="/profile/:username" render={() => <ProfilePage profileUser={user} type={profileType} />} />
             </IonRouterOutlet>
         </IonCard>

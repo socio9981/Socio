@@ -1,9 +1,9 @@
-import { IonContent, IonPage, IonTabBar, IonTabButton, IonIcon, IonLabel } from '@ionic/react';
+import { IonContent, IonPage, IonTabButton, IonIcon, IonTabBar } from '@ionic/react';
 import { chatbubble, chatbubbleOutline, notifications, notificationsOutline } from 'ionicons/icons';
-import { Redirect, BrowserRouter as Router, useHistory } from 'react-router-dom';
+import { Link, BrowserRouter as Router } from 'react-router-dom';
 import './Home.css';
 import Sidebar from '../components/Sidebar/Sidebar';
-import { useEffect, useState, useContext, useRef } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { GlobalContext } from '../store/GlobalStore';
 import Mainsection from '../components/Mainsection/Mainsection';
 import Navbar from '../components/Navbar/Navbar';
@@ -13,6 +13,7 @@ import socio_logo_rect_black from "../../src/images/socio_rect_logos/black_rect.
 import socio_logo_rect_white from "../../src/images/socio_rect_logos/white_rect.png";
 import socio_logo_sqar_black from "../../src/images/socio_sqar_logos/black_sqar.png";
 import socio_logo_sqar_white from "../../src/images/socio_sqar_logos/white_sqar.png";
+import { IonReactRouter } from '@ionic/react-router';
 
 export default function Home({ toggleTheme }) {
 
@@ -27,23 +28,9 @@ export default function Home({ toggleTheme }) {
 
   const [searchProfileOpen, setSearchProfileOpen] = useState(false);
 
-  const chatRef = useRef(null);
-  const notificationRef = useRef(null);
-
-  const chatClick = () => {
-    if (chatRef.current) {
-      chatRef.current.click();
-    }
-  };
-
-  const notificationClick = () => {
-    if (notificationRef.current) {
-      notificationRef.current.click();
-    }
-  };
   return (
     <IonPage id='home'>
-      <Router>
+      <IonReactRouter>
         <div id='container'>
           {
             screenType === 'desktop' &&
@@ -63,37 +50,38 @@ export default function Home({ toggleTheme }) {
             screenType !== 'desktop' &&
             <>
               <div id="top-nav-bar">
-
-                <div slot="top">
-
-                  <IonTabButton tab='logo' href='/' className='top-nav-item-0'>
+                <div>
+                  <div className='top-nav-item-0'>
                     <img src={theme === 'dark'
                       ? sideBar === "max" ? socio_logo_rect_black : socio_logo_sqar_black
                       : sideBar === "max" ? socio_logo_rect_white : socio_logo_sqar_white} alt="socio_logo"
                     />
-                  </IonTabButton>
-
-                  <div onClick={() => {
-                    setActiveMenuItem('chat')
-                    chatClick()
-                  }
-                  } className={`top-nav-item-1 ${activeMenuItem === 'chat' ? 'active-icon-top' : ''}`}>
-                    <IonIcon icon={activeMenuItem === 'chat' ? chatbubble : chatbubbleOutline} />
                   </div>
 
-                  <div tab="notifications" onClick={() => {
-                    setActiveMenuItem('notifications')
-                    notificationClick()
-                  }} className={`top-nav-item-2 ${activeMenuItem === 'notifications' ? 'active-icon-top' : ''}`} >
-                    <IonIcon icon={activeMenuItem === 'notifications' ? notifications : notificationsOutline} />
+                  <div className='top-nav-item-1' onClick={() => setActiveMenuItem('chat')}>
+                      <Link to='chat'>
+                        <IonIcon icon={
+                          activeMenuItem === 'chat' ? chatbubble : chatbubbleOutline
+                        } />
+                      </Link>
                   </div>
+
+                  <div className='top-nav-item-2' onClick={() => setActiveMenuItem('notifications')}>
+                      <Link to='/notifications'>
+                        <IonIcon icon={
+                          activeMenuItem === 'notifications' ? notifications : notificationsOutline
+                        } />
+                      </Link>
+                  </div>
+
                 </div>
               </div>
-              <Navbar activeMenuItem={activeMenuItem} setActiveMenuItem={setActiveMenuItem} chatButtonRef={chatRef} notificationButtonRef={notificationRef} />
+              
+              <Navbar activeMenuItem={activeMenuItem} setActiveMenuItem={setActiveMenuItem} setUser={setUser} profileType={profileType} setProfileType={setProfileType} setSearchProfileOpen={setSearchProfileOpen} />
             </>
           }
         </div>
-      </Router>
+      </IonReactRouter>
     </IonPage>
   );
 };

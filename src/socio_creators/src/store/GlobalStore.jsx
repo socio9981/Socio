@@ -5,7 +5,7 @@ const initialState = {
   screenType: 'desktop',
   actor: null,
   loggedIn: false,
-  user: null
+  creator: null
 };
 
 const reducer = (state, action) => {
@@ -18,8 +18,8 @@ const reducer = (state, action) => {
       return { ...state, actor: action.payload };
     case 'SET_LOGGED_IN':
       return { ...state, loggedIn: action.payload };
-    case 'SET_USER':
-      return { ...state, user: action.payload };
+    case 'SET_CREATOR':
+      return { ...state, creator: action.payload };
     default:
       return state;
   }

@@ -19,6 +19,8 @@ import privacy_icon_feature from '../../../src/features/privacy-icon.png';
 import crewsphere from '../../../src/images/crewshpere.png';
 import icp from '../../../src/images/icp_global.png';
 
+import founder from "../../../src/images/profile_pic.png";
+
 import { GlobalContext } from '../../store/GlobalStore';
 
 import { logInOutline, play } from 'ionicons/icons';
@@ -265,7 +267,7 @@ export default function LandingPage() {
           <p id='Founder'>Meet <br /><span id='founder_span'>The Founder</span></p>
 
           <div className="founder-section">
-            <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Founder Image" className="founder-image" />
+            <img src={founder} alt="Founder Image" className="founder-image" />
             <div className="founder-text">
               <h3>Rathan Raju</h3>
               <p>Founder & CEO</p>

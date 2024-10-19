@@ -29,10 +29,6 @@
     ion-tab-button{
         color: var(--ion-tab-button-color);
     }
-
-    .active-icon-top{
-        color: var(--ion-color-primary);
-    }
 }
 
 @media screen and (max-width: 768px) {
