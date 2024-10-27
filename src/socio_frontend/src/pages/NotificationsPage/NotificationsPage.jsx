@@ -69,7 +69,7 @@ export default function NotificationsPage({ setUser, setProfileType, setSearchPr
                             const newUser = {
                                 ...user,
                                 chatids: [...user.chatids, generateChatID(user.username, notification.sender)],
-                                following: [...user.following, notification.sender]
+                                friendrequests: [...user.friendrequests, notification.sender]
                             }
                             dispatch({ type: 'SET_USER', payload: newUser });
                         }
