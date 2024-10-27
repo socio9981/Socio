@@ -18,10 +18,15 @@
 
     .top-nav-item-1{
         position: absolute;
-        right: 15%;
+        right: 30%;
     }
 
     .top-nav-item-2{
+        position: absolute;
+        right: 15%;
+    }
+
+    .top-nav-item-3{
         position: absolute;
         right: 0;
     }
@@ -43,6 +48,11 @@
             }
 
             .top-nav-item-2{
+                font-size: 25px;
+                top: 10px;
+            }
+
+            .top-nav-item-3{
                 font-size: 25px;
                 top: 10px;
             }

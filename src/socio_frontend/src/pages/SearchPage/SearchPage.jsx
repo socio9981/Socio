@@ -20,7 +20,7 @@ export default function SearchPage({ setUser, setProfileType, setSearchProfileOp
     const [searchLoading, setSearchLoading] = useState(false);
 
     const handleSearch = async (event) => {
-        const query = event.target.value.toLowerCase();
+        const query = event.target.value;
         setSearchText(query);
         if (query) {
             setSearchLoading(true);

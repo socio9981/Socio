@@ -47,7 +47,7 @@ export default function Navbar({ activeMenuItem, setActiveMenuItem, setUser, pro
                 <IonTabs>
                     <IonRouterOutlet id="router-outlet">
                         <Route exact={true} path="/" render={() => <HomePage />} />
-                        <Route exact={true} path="/search" render={() => <SearchPage type="search" setUser={setUser} setProfileType={setProfileType} setSearchProfileOpen={setSearchProfileOpen} />} />
+                        <Route exact={true} path="/search" render={() => <SearchPage type="search" setUser={setCurrentUser} setProfileType={setProfileType} setSearchProfileOpen={setSearchProfileOpen} />} />
                         <Route exact={true} path="/create" render={() => <CreateComponent isOpen={isCreateModalOpen} onClose={() => setCreateComponent(false)} />} />
                         <Route exact={true} path="/chat" render={() => <IonPage><ChatPage /></IonPage>} />
                         <Route exact={true} path="/explore" render={() => <ExplorePage />} />

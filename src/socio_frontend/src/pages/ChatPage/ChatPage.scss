@@ -1,6 +1,8 @@
 #ChatPage {
     height: 100%;
     display: flex;
+    position: relative;
+    z-index: 1100;
 
     #chat-list {
         width: 25%;

@@ -12,7 +12,7 @@ import { convertToImage } from '../../utils/image_utils/convertImage';
 
 export default function NotificationsPage({ setUser, setProfileType, setSearchProfileOpen }) {
 
-    const { state } = useContext(GlobalContext);
+    const { state, dispatch } = useContext(GlobalContext);
     const { actor, user } = state;
 
     const history = useHistory();
@@ -65,6 +65,14 @@ export default function NotificationsPage({ setUser, setProfileType, setSearchPr
             case 'sent_request':
                 return (
                     <IonItem key={notification.id} onClick={() => {
+                        if(!user.following.includes(notification.sender)){
+                            const newUser = {
+                                ...user,
+                                chatids: [...user.chatids, generateChatID(user.username, notification.sender)],
+                                following: [...user.following, notification.sender]
+                            }
+                            dispatch({ type: 'SET_USER', payload: newUser });
+                        }
                         setUser(notification.user);
                         setProfileType('non-self');
                         setSearchProfileOpen(true);

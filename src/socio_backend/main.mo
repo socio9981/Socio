@@ -187,6 +187,14 @@ actor {
     * Custom functions starts
     */
 
+  public shared func getUserCount() : async Nat {
+    return users.size();
+  };
+
+  public shared func checkUsername(username : Text) : async Bool {
+    return usermappings.get(username) != null;
+  };
+
   // Function: registerUser
   // Description: Registers a new user with the provided information.
   // Parameters:
@@ -809,7 +817,7 @@ actor {
    * @param isPublic - A boolean indicating whether the post is public or not.
    * @returns A boolean indicating whether the upload was successful or not.
    */
-  public shared (msg) func uploadPost(hash : Text, mediaContent : Blob, isPublic : Bool, caption : Text, date : Text) : async Bool {
+  public shared (msg) func uploadPost(hash : Text, mediaContent : Blob, isPublic : Bool, captionText : Text, date : Text) : async Bool {
     let caller = msg.caller;
     let result = await addMedia(hash, "post", mediaContent, isPublic, caller);
     let _ = mediadata.put(
@@ -817,7 +825,7 @@ actor {
       {
         likes = [];
         comments = [];
-        caption = caption;
+        caption = captionText;
         date = date;
       },
     );

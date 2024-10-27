@@ -17,7 +17,10 @@
         "socio_chats"
       ],
       "main": "src/socio_backend/main.mo",
-      "type": "motoko"
+      "type": "motoko",
+      "assets": [
+        "src/socio_backend/assets"
+      ]
     },
     "socio_frontend": {
       "dependencies": [

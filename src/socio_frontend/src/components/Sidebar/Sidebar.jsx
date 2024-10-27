@@ -1,5 +1,7 @@
+import { AuthClient } from "@dfinity/auth-client";
 import { useState, useContext, useEffect, createRef, useRef } from "react";
-import { IonCard, IonList, IonIcon, IonItem, IonCardContent, IonToggle, IonRouterLink } from "@ionic/react";
+import { IonCard, IonList, IonIcon, IonItem, IonCardContent, IonToggle, useIonToast } from "@ionic/react";
+
 import { Link } from "react-router-dom";
 import {
     addCircleOutline, addCircle,
@@ -24,7 +26,7 @@ import CreateComponent from "../CreateComponent/CreateComponent";
 
 export default function Sidebar({ sideBar, setSideBar, toggleTheme, activeMenuItem, setActiveMenuItem, setUser, setProfileType, setSearchProfileOpen }) {
 
-    const { state } = useContext(GlobalContext);
+    const { state, dispatch } = useContext(GlobalContext);
     const { theme, screenType, user } = state;
 
     const [showMoreOptions, setShowMoreOptions] = useState(false);
@@ -35,6 +37,8 @@ export default function Sidebar({ sideBar, setSideBar, toggleTheme, activeMenuIt
 
     const [lastActiveMenuItem, setLastActiveMenuItem] = useState(null);
     const [lastSideBar, setLastSideBar] = useState(null);
+
+    const [presentToast] = useIonToast();
 
     const menuItems = [
         { key: 'home', icon: home, iconOutline: homeOutline, label: 'Home', sideBarState: 'max', path: '/' },
@@ -81,6 +85,31 @@ export default function Sidebar({ sideBar, setSideBar, toggleTheme, activeMenuIt
         };
     }, []);
 
+    async function handleLogout() {
+        try {
+          const authClient = await AuthClient.create();
+          await authClient.logout();
+          
+          // Reset the actor and user state
+          dispatch({ type: 'SET_ACTOR', payload: null });
+          dispatch({ type: 'SET_USER', payload: null });
+          dispatch({ type: 'SET_LOGGED_IN', payload: false });
+          
+          presentToast({
+            message: "Logged out successfully",
+            duration: 3000,
+            color: "success",
+          });
+        } catch (error) {
+          console.error('An error occurred during logout:', error);
+          presentToast({
+            message: "An error occurred during logout",
+            duration: 3000,
+            color: "danger",
+          });
+        }
+      }
+
     return (
         <IonCard className={"sidebar " + `${sideBar}`} style={{ width: sideBar === 'max' ? '15%' : '5%' }}>
             <IonList lines='none' id="sidebar-menu">
@@ -104,10 +133,10 @@ export default function Sidebar({ sideBar, setSideBar, toggleTheme, activeMenuIt
                                 setLastActiveMenuItem(item.key);
                                 setLastSideBar(item.sideBarState);
                             };
-                            if(item.key === 'search' || item.key === 'notifications'){
+                            if (item.key === 'search' || item.key === 'notifications') {
                                 setSearchProfileOpen(false);
                             };
-                            if(item.key === 'profile'){
+                            if (item.key === 'profile') {
                                 setProfileType('self');
                                 setUser(user);
                             }
@@ -118,7 +147,7 @@ export default function Sidebar({ sideBar, setSideBar, toggleTheme, activeMenuIt
                         }}
                     />
                 ))}
-                
+
                 <CreateComponent isOpen={isCreateModalOpen} onClose={() => {
                     setCreateComponent(false);
                     setActiveMenuItem(lastActiveMenuItem);
@@ -148,7 +177,9 @@ export default function Sidebar({ sideBar, setSideBar, toggleTheme, activeMenuIt
                                         <IonToggle slot="start" onIonChange={() => toggleTheme()}></IonToggle>
                                         <p className="icon-label appearance">Appearance</p>
                                     </IonItem>
-                                    <IonItem>
+                                    <IonItem onClick={() => {
+                                        handleLogout();
+                                    }}>
                                         <IonIcon icon={logOut} slot="start" />
                                         <p className="icon-label">Log Out</p>
                                     </IonItem>

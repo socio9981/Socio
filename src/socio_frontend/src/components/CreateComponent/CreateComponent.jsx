@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { IonModal, IonButton, IonTextarea, IonContent, IonHeader, IonToolbar, IonTitle, IonFooter, useIonToast, useIonLoading } from '@ionic/react';
 import { convertToBinary, convertToHash } from '../../utils/image_utils/convertImage';
+import { convertVideoToBinary, convertVideoToHash } from '../../utils/image_utils/convertVideo';
 import './CreateComponent.css';
 import { GlobalContext } from '../../store/GlobalStore';
 
@@ -40,7 +41,7 @@ export default function CreateComponent({ isOpen, onClose }) {
 
     const handleSubmit = async () => {
         await present({ message: "Uploading..." });
-        if (file === null || caption == null) {
+        if (file === null || caption === null || caption === '') {
             presentToast({
                 message: "Please select a file and add a caption",
                 duration: 3000,
@@ -59,8 +60,8 @@ export default function CreateComponent({ isOpen, onClose }) {
             currentFileType = file.type;
             res = await actor.uploadPost(fileHash, media, user.ispublic, caption, new Date().toISOString());
         } else {
-            const fileHash = await convertToHash(file);
-            const media = convertToBinary(file);
+            const media = await convertVideoToBinary(file);
+            const fileHash = await convertVideoToHash(media);
             currentHash = fileHash;
             currentFileType = file.type;
             res = await actor.uploadReel(fileHash, media, user.ispublic, caption, new Date().toISOString());
@@ -71,12 +72,26 @@ export default function CreateComponent({ isOpen, onClose }) {
                 duration: 3000,
                 color: "success"
             });
-            let currentPosts = user.posts;
-            currentPosts.push(currentHash);
-            dispatch({ type: 'SET_USER', payload: {
-                ...user,
-                posts: currentPosts
-            } });
+            if (!isVideo) {
+                let currentPosts = user.posts;
+                currentPosts.push(currentHash);
+                dispatch({
+                    type: 'SET_USER', payload: {
+                        ...user,
+                        posts: currentPosts
+                    }
+                });
+            }
+            else {
+                let currentReels = user.reels;
+                currentReels.push(currentHash);
+                dispatch({
+                    type: 'SET_USER', payload: {
+                        ...user,
+                        reels: currentReels
+                    }
+                })
+            }
         } else {
             presentToast({
                 message: "Failed to Upload post",
@@ -85,6 +100,10 @@ export default function CreateComponent({ isOpen, onClose }) {
             });
         }
         onClose();
+        setCaption('');
+        setFile(null);
+        setPreview(null);
+        setIsVideo(false);
         dismiss();
     };
 
@@ -121,7 +140,13 @@ export default function CreateComponent({ isOpen, onClose }) {
             <IonFooter>
                 <IonToolbar>
                     <IonButton expand="block" onClick={handleSubmit}>Post</IonButton>
-                    <IonButton expand="block" onClick={onClose}>Cancel</IonButton>
+                    <IonButton expand="block" onClick={() => {
+                        onClose();
+                        setCaption('');
+                        setFile(null);
+                        setPreview(null);
+                        setIsVideo(false);
+                    }}>Cancel</IonButton>
                 </IonToolbar>
             </IonFooter>
         </IonModal>

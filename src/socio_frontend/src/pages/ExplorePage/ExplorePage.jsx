@@ -37,7 +37,7 @@ export default function ExplorePage() {
 
     return (
         <IonPage id='ExplorePage'>
-            <div className="search-container">
+            {/* <div className="search-container">
                 <IonSearchbar
                     value={searchText}
                     onIonChange={e => setSearchText(e.detail.value)}
@@ -79,7 +79,11 @@ export default function ExplorePage() {
                         </IonCol>
                     ))}
                 </IonRow>
-            </IonGrid>
+            </IonGrid> */}
+            <h2 style={{
+                textAlign: 'center',
+                marginTop: '25%'
+            }}>Coming soon...</h2>
         </IonPage>
     );
 }

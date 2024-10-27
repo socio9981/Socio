@@ -1,5 +1,6 @@
-import { IonContent, IonPage, IonTabButton, IonIcon, IonTabBar } from '@ionic/react';
-import { chatbubble, chatbubbleOutline, notifications, notificationsOutline } from 'ionicons/icons';
+import { AuthClient } from '@dfinity/auth-client';
+import { IonContent, IonPage, IonIcon, useIonToast } from '@ionic/react';
+import { chatbubble, chatbubbleOutline, logOut, notifications, notificationsOutline } from 'ionicons/icons';
 import { Link, BrowserRouter as Router } from 'react-router-dom';
 import './Home.css';
 import Sidebar from '../components/Sidebar/Sidebar';
@@ -17,8 +18,10 @@ import { IonReactRouter } from '@ionic/react-router';
 
 export default function Home({ toggleTheme }) {
 
-  const { state } = useContext(GlobalContext);
+  const { state, dispatch } = useContext(GlobalContext);
   const { screenType, theme } = state;
+
+  const [presentToast] = useIonToast();
 
   const [sideBar, setSideBar] = useState("max");
   const [activeMenuItem, setActiveMenuItem] = useState('home');
@@ -27,6 +30,31 @@ export default function Home({ toggleTheme }) {
   const [profileType, setProfileType] = useState(null);
 
   const [searchProfileOpen, setSearchProfileOpen] = useState(false);
+
+  async function handleLogout() {
+    try {
+      const authClient = await AuthClient.create();
+      await authClient.logout();
+
+      // Reset the actor and user state
+      dispatch({ type: 'SET_ACTOR', payload: null });
+      dispatch({ type: 'SET_USER', payload: null });
+      dispatch({ type: 'SET_LOGGED_IN', payload: false });
+
+      presentToast({
+        message: "Logged out successfully",
+        duration: 3000,
+        color: "success",
+      });
+    } catch (error) {
+      console.error('An error occurred during logout:', error);
+      presentToast({
+        message: "An error occurred during logout",
+        duration: 3000,
+        color: "danger",
+      });
+    }
+  }
 
   return (
     <IonPage id='home'>
@@ -59,24 +87,32 @@ export default function Home({ toggleTheme }) {
                   </div>
 
                   <div className='top-nav-item-1' onClick={() => setActiveMenuItem('chat')}>
-                      <Link to='chat'>
-                        <IonIcon icon={
-                          activeMenuItem === 'chat' ? chatbubble : chatbubbleOutline
-                        } />
-                      </Link>
+                    <Link to='chat'>
+                      <IonIcon icon={
+                        activeMenuItem === 'chat' ? chatbubble : chatbubbleOutline
+                      } />
+                    </Link>
                   </div>
 
                   <div className='top-nav-item-2' onClick={() => setActiveMenuItem('notifications')}>
-                      <Link to='/notifications'>
-                        <IonIcon icon={
-                          activeMenuItem === 'notifications' ? notifications : notificationsOutline
-                        } />
-                      </Link>
+                    <Link to='/notifications'>
+                      <IonIcon icon={
+                        activeMenuItem === 'notifications' ? notifications : notificationsOutline
+                      } />
+                    </Link>
+                  </div>
+
+                  <div className='top-nav-item-3' onClick={() => handleLogout()}>
+                    <Link to='/'>
+                      <IonIcon icon={
+                        logOut
+                      } />
+                    </Link>
                   </div>
 
                 </div>
               </div>
-              
+
               <Navbar activeMenuItem={activeMenuItem} setActiveMenuItem={setActiveMenuItem} setUser={setUser} profileType={profileType} setProfileType={setProfileType} setSearchProfileOpen={setSearchProfileOpen} />
             </>
           }

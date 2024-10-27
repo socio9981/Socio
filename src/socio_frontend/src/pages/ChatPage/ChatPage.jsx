@@ -39,7 +39,7 @@ import AttachFileModal from '../../components/AttachFileModal/AttachFileModal';
 export default function ChatPage() {
 
     const { state } = useContext(GlobalContext);
-    const { actor, user } = state;
+    const { theme, actor, user } = state;
 
     const [chats, setChats] = useState([]);
     const [chatsLoading, setChatsLoading] = useState(false);
@@ -82,6 +82,21 @@ export default function ChatPage() {
     useEffect(() => {
         if (selectedChat !== null && selectedChat.messages && selectedChat.messages.length > 0)
             messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [selectedChat]);
+
+    useEffect(() => {
+        async function refreshMessages() {
+            if (selectedChat === null) return;
+            let fetchedMessages = await actor.getMessages(selectedChat.chatId);
+            setSelectedChat((prevState) => ({
+                ...prevState,
+                messages: fetchedMessages[0]
+            }));
+        }
+
+        const intervalId = setInterval(refreshMessages, 5000);
+
+        return () => clearInterval(intervalId);
     }, [selectedChat]);
 
     async function selectChat(id, name, profilePic, chatId) {
@@ -180,7 +195,9 @@ export default function ChatPage() {
     }, [isModalOpen, handleSendMessage, handleSendFile]);
 
     return (
-        <div id='ChatPage'>
+        <div id='ChatPage' style={{
+            backgroundColor: theme === 'dark' ? "#000000" : "#ffffff"
+        }}>
             <div id="chat-list" className={selectedChat === null ? 'open' : 'close'}>
                 <IonHeader>
                     <IonToolbar>
@@ -285,8 +302,7 @@ export default function ChatPage() {
                                                         {msg.message !== "" && <p>{msg.message}</p>}
                                                         {
                                                             msg.media !== null &&
-                                                            msg.mediaType !== 'null' && (msg.mediaType === 'image/png' ? <img src={convertToImage(msg.media[0])} alt="media" /> : <video controls src={msg.src} />)
-                                                        }
+                                                            msg.mediaType !== 'null' && (msg.mediaType.startsWith('image/') ? <img src={convertToImage(msg.media[0])} alt="media" /> : <video controls src={msg.src} />)}
                                                     </div>
                                                 ))}
                                             <div ref={messagesEndRef}></div>
@@ -306,16 +322,22 @@ export default function ChatPage() {
                                     <IonButton slot="start" onClick={handleAttach}>
                                         <IonIcon icon={attachOutline} />
                                     </IonButton>
-                                    <AttachFileModal isOpen={isModalOpen} onClose={() => {
-                                        setIsModalOpen(false);
-                                    }
-                                    } onSendFile={handleSendFile} />
+                                    <AttachFileModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSendFile={handleSendFile} />
                                     <IonInput
                                         value={message}
                                         placeholder="Type a message"
                                         onIonChange={e => setMessage(e.detail.value)}
+                                        onKeyDown={e => {
+                                            if (e.key === 'Enter') {
+                                                e.preventDefault(); // Prevent default behavior
+                                                handleSendMessage();
+                                            }
+                                        }}
                                     />
-                                    <IonButton slot="end" onClick={() => handleSendMessage()}>
+                                    <IonButton slot="end" onClick={e => {
+                                        e.preventDefault(); // Prevent default behavior
+                                        handleSendMessage();
+                                    }}>
                                         <IonIcon icon={sendOutline} />
                                     </IonButton>
                                 </IonToolbar>

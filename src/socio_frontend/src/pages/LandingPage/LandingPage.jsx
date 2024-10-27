@@ -1,4 +1,4 @@
-import { IonContent, IonIcon, IonPage, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonImg, IonToggle, IonMenu, IonMenuButton, IonList, IonItem, IonGrid, IonRow, IonCol, IonCard, IonFooter } from '@ionic/react';
+import { IonContent, IonIcon, IonPage, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonImg, IonToggle, IonMenu, IonMenuButton, IonList, IonItem, IonGrid, IonRow, IonCol, IonCard, IonFooter, IonSkeletonText } from '@ionic/react';
 import { useEffect, useState, useContext } from 'react';
 import socio_logo_black from '../../../src/images/socio_logo_black_bg_word.png';
 import socio_logo_white from '../../../src/images/socio_logo_white_bg_word.png';
@@ -23,15 +23,19 @@ import founder from "../../../src/images/profile_pic.png";
 
 import { GlobalContext } from '../../store/GlobalStore';
 
-import { logInOutline, play } from 'ionicons/icons';
+import { logInOutline, logoInstagram, logoLinkedin, logoX, play } from 'ionicons/icons';
 import { Preferences } from '@capacitor/preferences';
 import './LandingPage.scss';
 import Login from '../../components/Login/Login';
+import { Actor } from '@dfinity/agent';
+import { socio_backend } from '../../../../declarations/socio_backend';
 
 export default function LandingPage() {
   const [logo, setLogo] = useState(null);
-  const {state} = useContext(GlobalContext);
-  const { screenType } = state;
+  const { state } = useContext(GlobalContext);
+  const { screenType, actor } = state;
+
+  const [count, setCount] = useState(null);
 
   useEffect(() => {
     const fetchTheme = async () => {
@@ -41,6 +45,12 @@ export default function LandingPage() {
       setLogo(theme === 'dark' ? socio_logo_black : socio_logo_white);
     };
     fetchTheme();
+
+    const updateUserCount = async () => {
+      const value = await socio_backend.getUserCount();
+      setCount(Number(value));
+    };
+    updateUserCount();
 
   }, []);
 
@@ -119,28 +129,28 @@ export default function LandingPage() {
           <h3 id='question'>Why social media <br /><span id='founder_span'>On Blockchain</span></h3>
 
           <div className="benefits-section">
-              <IonList lines='none'>
-                <IonItem>
-                  <img src={decentralized_icon} alt="Decentralized" />
-                  <p>Decentralized</p>
-                </IonItem>
-                <IonItem>
-                  <img src={privacy_icon} alt="Privacy" />
-                  <p>Privacy</p>
-                </IonItem>
-                <IonItem>
-                  <img src={security_icon} alt="Security" />
-                  <p>Security</p>
-                </IonItem>
-                <IonItem>
-                  <img src={transparency_icon} alt="Transparency" />
-                  <p>Transparency</p>
-                </IonItem>
-                <IonItem>
-                  <img src={trust_icon} alt="Trust" />
-                  <p>Trust</p>
-                </IonItem>
-              </IonList>
+            <IonList lines='none'>
+              <IonItem>
+                <img src={decentralized_icon} alt="Decentralized" />
+                <p>Decentralized</p>
+              </IonItem>
+              <IonItem>
+                <img src={privacy_icon} alt="Privacy" />
+                <p>Privacy</p>
+              </IonItem>
+              <IonItem>
+                <img src={security_icon} alt="Security" />
+                <p>Security</p>
+              </IonItem>
+              <IonItem>
+                <img src={transparency_icon} alt="Transparency" />
+                <p>Transparency</p>
+              </IonItem>
+              <IonItem>
+                <img src={trust_icon} alt="Trust" />
+                <p>Trust</p>
+              </IonItem>
+            </IonList>
           </div>
         </section>
 
@@ -271,6 +281,15 @@ export default function LandingPage() {
             <div className="founder-text">
               <h3>Rathan Raju</h3>
               <p>Founder & CEO</p>
+              <div id="founder-links">
+                <a href='https://x.com/RathanRaju7' target='_blank'>
+                  <IonIcon icon={logoX} />
+                </a>
+
+                <a href='https://linkedin.com/in/rathanraju' target='_blank'>
+                  <IonIcon icon={logoLinkedin} />
+                </a>
+              </div>
             </div>
           </div>
         </section>
@@ -279,13 +298,38 @@ export default function LandingPage() {
           <h2>Supported By</h2>
           <div id="supporter-logos">
             <IonImg src={crewsphere} alt='crewsphere' className='supporter-image' />
-            <IonImg src={icp} alt='icp' className='supporter-image'/>
+            <IonImg src={icp} alt='icp' className='supporter-image' />
           </div>
         </section>
       </IonContent>
 
       <IonFooter>
         <p id='footer-p'>© 2024 Socio</p>
+
+        <div id="footer-icons">
+
+          <p id='follow-text'>Follow us</p>
+
+          <a href='https://x.com/Socio9819' target='_blank'>
+            <IonIcon icon={logoX} />
+          </a>
+
+          <a href='https://www.instagram.com/socio9819/' target='_blank'>
+            <IonIcon icon={logoInstagram} />
+          </a>
+
+          <a href='https://www.linkedin.com/company/socio9819' target='_blank'>
+            <IonIcon icon={logoLinkedin} />
+          </a>
+
+        </div>
+
+        <div id="footer-count">
+          <p id='count'>Current Users: </p><span>{
+            count === null ? <IonSkeletonText animated style={{ width: '20px' }} /> : count
+          }
+          </span>
+        </div>
       </IonFooter>
     </IonPage>
   );

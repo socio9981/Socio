@@ -31,6 +31,7 @@ import { v4 as uuidv4 } from 'uuid';
 import './ProfilePage.scss';
 import { GlobalContext } from '../../store/GlobalStore';
 import { convertToImage } from '../../utils/image_utils/convertImage';
+import { convertToVideo } from '../../utils/image_utils/convertVideo';
 import { generateChatID } from '../../utils/chat_utils/chatUtils';
 
 export default function ProfilePage({ profileUser, type }) {
@@ -38,7 +39,7 @@ export default function ProfilePage({ profileUser, type }) {
     const [activeTab, setActiveTab] = useState('posts');
     const { state, dispatch } = useContext(GlobalContext);
     const { screenType, actor, user } = state;
-    
+
     const [presentToast] = useIonToast();
 
     const [profilePicture, setProfilePicture] = useState(null);
@@ -60,6 +61,10 @@ export default function ProfilePage({ profileUser, type }) {
             setProfilePicture(convertToImage(profileUser.profilepicture));
         }
     }, [profileUser.profilepicture]);
+
+    useEffect(() => {
+        console.log(profileUser)
+    }, [profileUser]);
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -125,13 +130,10 @@ export default function ProfilePage({ profileUser, type }) {
         }
     }, [profileUser.tagged]);
 
-    useEffect(() => {
-        console.log("pr")
-    }, []);
-
     async function follow() {
         setDisableButton(true);
         let chatId = generateChatID(user.username, profileUser.username);
+        console.log(chatId);
         let res = await actor.sendFriendRequest(chatId, profileUser.username, uuidv4(), new Date().toISOString());
         if (res) {
             let newUser = {
@@ -158,6 +160,7 @@ export default function ProfilePage({ profileUser, type }) {
 
         setDisableButton(true);
         let chatId = generateChatID(user.username, profileUser.username);
+        console.log(chatId);
         let res = await actor.acceptFriendRequest(chatId, profileUser.username, uuidv4(), new Date().toISOString());
         if (res) {
             let newUser = {
@@ -183,6 +186,7 @@ export default function ProfilePage({ profileUser, type }) {
     async function unfollow() {
         setDisableButton(true);
         let chatId = generateChatID(user.username, profileUser.username);
+        console.log(chatId);
         let res = await actor.unfollow(chatId, profileUser.username);
         if (res) {
             let newUser = {
@@ -227,6 +231,7 @@ export default function ProfilePage({ profileUser, type }) {
         }
     };
 
+
     return (
         <IonPage id='ProfilePage'>
             {
@@ -235,7 +240,7 @@ export default function ProfilePage({ profileUser, type }) {
                 <IonContent>
                     <div>
                         {
-                            screenType !== 'desktop' && profileUser &&
+                            screenType !== 'desktop' &&
                             <IonGrid>
                                 <IonRow>
                                     <IonCol size='4'>
@@ -249,7 +254,7 @@ export default function ProfilePage({ profileUser, type }) {
                                             <IonCol>
                                                 {
                                                     profileUser.posts &&
-                                                <p className='profile-stat'><strong>{profileUser.posts.length}</strong> posts</p>
+                                                    <p className='profile-stat'><strong>{profileUser.posts.length}</strong> posts</p>
                                                 }
                                             </IonCol>
                                             <IonCol>
@@ -276,7 +281,7 @@ export default function ProfilePage({ profileUser, type }) {
                                                 <IonCol size='6'>
                                                     <IonButton disabled={disableButton} expand='block' onClick={() => {
                                                         unfollow();
-                                                    }}>Unollow
+                                                    }}>Unfollow
                                                     </IonButton>
                                                 </IonCol>
                                                 : (user.followers.includes(profileUser.username) && user.following.includes(profileUser.user))
@@ -313,7 +318,7 @@ export default function ProfilePage({ profileUser, type }) {
                                     <IonCol size="6">
                                         <IonRow>
                                             <IonCol>
-                                                <h2>{profileUser.profileUsername}</h2>
+                                                <h2>{profileUser.username}</h2>
                                                 {
                                                     type === 'self'
                                                         ? <IonButton>Edit Profile</IonButton>
@@ -322,7 +327,7 @@ export default function ProfilePage({ profileUser, type }) {
                                                             <IonButton disabled={disableButton} onClick={() => {
                                                                 unfollow();
                                                             }}>
-                                                                Unollow
+                                                                Unfollow
                                                             </IonButton> :
                                                             (user.followers.includes(profileUser.username) && !user.following.includes(profileUser.username)) ?
                                                                 <IonButton disabled={disableButton} onClick={() => {
@@ -405,9 +410,7 @@ export default function ProfilePage({ profileUser, type }) {
                                                         posts.map((post, index) => {
                                                             let postData = post[0][0][0];
                                                             let postMedia = post[0][1][0];
-                                                            return <IonCol size="4" key={index} className='content-item' onClick={() => {
-                                                                alert("post clicked")
-                                                            }}>
+                                                            return <IonCol size="4" key={index} className='content-item'>
                                                                 <img src={convertToImage(postMedia.media)} alt="post" className="grid-image" />
                                                                 <div className='content-overlay'>
                                                                     <span onClick={(event) => {
@@ -454,11 +457,12 @@ export default function ProfilePage({ profileUser, type }) {
                                                         reels.map((reel, index) => {
                                                             let reelMedia = reel[0][1][0];
                                                             let reelData = reel[0][0][0];
-                                                            return <IonCol size="4" key={index} className='content-item' onClick={() => {
-                                                                alert("reel clicked")
-                                                            }}>
-                                                                <img src={convertToImage(reelMedia.media)} alt="reel" className="grid-image" />
-                                                                <div className='content-overlay'>
+                                                            return <IonCol size="4" key={index} className='content-item'>
+                                                                <video controls className="grid-video">
+                                                                    <source src={convertToVideo(reelMedia.media)} type="video/mp4" />
+                                                                    Your browser does not support the video tag.
+                                                                </video>
+                                                                {/* <div className='content-overlay'>
                                                                     <span>
                                                                         <IonIcon icon={
                                                                             reelData.likes.includes(user.username) ? heart : heartOutline
@@ -473,7 +477,10 @@ export default function ProfilePage({ profileUser, type }) {
                                                                             setReels([...reels]);
                                                                         }} /> {reelData.likes.length}
                                                                     </span>
-                                                                </div>
+                                                                    <span>
+                                                                        <IonIcon icon={paperPlane} />
+                                                                    </span>
+                                                                </div> */}
                                                             </IonCol>
                                                         })
                                                 }
