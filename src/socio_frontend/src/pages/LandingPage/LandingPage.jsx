@@ -20,6 +20,9 @@ import crewsphere from '../../../src/images/crewshpere.png';
 import icp from '../../../src/images/icp_global.png';
 
 import founder from "../../../src/images/profile_pic.png";
+import Jhansi from "../../../src/images/Jhansi.jpg";
+import Mukesh from "../../../src/images/Mukesh.jpeg";
+import Meghana from "../../../src/images/Meghana.jpg";
 
 import { GlobalContext } from '../../store/GlobalStore';
 
@@ -274,23 +277,106 @@ export default function LandingPage() {
         </section>
 
         <section id='team'>
-          <p id='Founder'>Meet <br /><span id='founder_span'>The Founder</span></p>
+          <p id='Founder'>Meet <br /><span id='founder_span'>The Team</span></p>
 
-          <div className="founder-section">
-            <img src={founder} alt="Founder Image" className="founder-image" />
-            <div className="founder-text">
-              <h3>Rathan Raju</h3>
-              <p>Founder & CEO</p>
-              <div id="founder-links">
-                <a href='https://x.com/RathanRaju7' target='_blank'>
-                  <IonIcon icon={logoX} />
-                </a>
+          <div className={"team-section" + " " + (screenType === 'mobile' ? 'mobile' : 'desktop')}>
 
-                <a href='https://linkedin.com/in/rathanraju' target='_blank'>
-                  <IonIcon icon={logoLinkedin} />
-                </a>
+            <div className="team-member one">
+              <img src={founder} alt="Rathan Raju" className="team-image" />
+              <div className="team-text">
+                <h3>Rathan Raju</h3>
+                <p>Founder & CEO</p>
+                <div className="team-links">
+                  <a href='https://x.com/RathanRaju7' target='_blank'>
+                    <IonIcon icon={logoX} />
+                  </a>
+                  <a href='https://linkedin.com/in/rathanraju' target='_blank'>
+                    <IonIcon icon={logoLinkedin} />
+                  </a>
+                </div>
               </div>
             </div>
+
+            <div className="team-member two">
+              <img src={Mukesh} alt="Member 2" className="team-image" />
+              <div className="team-text">
+                <h3>Mukeswar</h3>
+                <p>Co - Founder</p>
+                <div className="team-links">
+                  <a href='https://x.com/RathanRaju7' target='_blank'>
+                    <IonIcon icon={logoX} />
+                  </a>
+                  <a href='https://linkedin.com/in/rathanraju' target='_blank'>
+                    <IonIcon icon={logoLinkedin} />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="team-member three">
+              <img src={Jhansi} alt="Member 3" className="team-image" />
+              <div className="team-text">
+                <h3>Jhansi</h3>
+                <p>Co - Founder</p>
+                <div className="team-links">
+                  <a href='https://x.com/JNarasingu47320' target='_blank'>
+                    <IonIcon icon={logoX} />
+                  </a>
+                  <a href='https://www.linkedin.com/in/jhansi-narasingula-746360233' target='_blank'>
+                    <IonIcon icon={logoLinkedin} />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="team-member four">
+              <img src={Meghana} alt="Member 4" className="team-image" />
+              <div className="team-text">
+                <h3>Meghana</h3>
+                <p>Co - Founder</p>
+                <div className="team-links">
+                  <a href='https://x.com/Meghana_0304' target='_blank'>
+                    <IonIcon icon={logoX} />
+                  </a>
+                  <a href='https://www.linkedin.com/in/chinnam-meghana' target='_blank'>
+                    <IonIcon icon={logoLinkedin} />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="team-member five">
+              <img src={founder} alt="Member 5" className="team-image" />
+              <div className="team-text">
+                <h3>William</h3>
+                <p>Co - Founder</p>
+                <div className="team-links">
+                  <a href='https://x.com/RathanRaju7' target='_blank'>
+                    <IonIcon icon={logoX} />
+                  </a>
+                  <a href='https://linkedin.com/in/rathanraju' target='_blank'>
+                    <IonIcon icon={logoLinkedin} />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="team-member six">
+              <img src={founder} alt="Member 6" className="team-image" />
+              <div className="team-text">
+                <h3>Narasimha</h3>
+                <p>Co - Founder</p>
+                <div className="team-links">
+                  <a href='https://x.com/RathanRaju7' target='_blank'>
+                    <IonIcon icon={logoX} />
+                  </a>
+                  <a href='https://linkedin.com/in/rathanraju' target='_blank'>
+                    <IonIcon icon={logoLinkedin} />
+                  </a>
+                </div>
+              </div>
+            </div>
+
           </div>
         </section>
 
