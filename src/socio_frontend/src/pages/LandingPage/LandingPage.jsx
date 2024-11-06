@@ -23,6 +23,8 @@ import founder from "../../../src/images/profile_pic.png";
 import Jhansi from "../../../src/images/Jhansi.jpg";
 import Mukesh from "../../../src/images/Mukesh.jpeg";
 import Meghana from "../../../src/images/Meghana.jpg";
+import Narasimha from "../../../src/images/Narasimha.jpg";
+import William from "../../../src/images/Willilam.jpeg";
 
 import { GlobalContext } from '../../store/GlobalStore';
 
@@ -346,15 +348,15 @@ export default function LandingPage() {
             </div>
 
             <div className="team-member five">
-              <img src={founder} alt="Member 5" className="team-image" />
+              <img src={William} alt="Member 5" className="team-image reverse-image" />
               <div className="team-text">
                 <h3>William</h3>
                 <p>Co - Founder</p>
                 <div className="team-links">
-                  <a href='https://x.com/RathanRaju7' target='_blank'>
+                  <a href='https://x.com/williamchi19896' target='_blank'>
                     <IonIcon icon={logoX} />
                   </a>
-                  <a href='https://linkedin.com/in/rathanraju' target='_blank'>
+                  <a href='https://www.linkedin.com/in/william-chintapalli-35423b265/' target='_blank'>
                     <IonIcon icon={logoLinkedin} />
                   </a>
                 </div>
@@ -362,15 +364,16 @@ export default function LandingPage() {
             </div>
 
             <div className="team-member six">
-              <img src={founder} alt="Member 6" className="team-image" />
+              
+              <img src={Narasimha} alt="Member 6" className="team-image" />
               <div className="team-text">
                 <h3>Narasimha</h3>
                 <p>Co - Founder</p>
                 <div className="team-links">
-                  <a href='https://x.com/RathanRaju7' target='_blank'>
+                  <a href='https://x.com/Narasimha_2003' target='_blank'>
                     <IonIcon icon={logoX} />
                   </a>
-                  <a href='https://linkedin.com/in/rathanraju' target='_blank'>
+                  <a href='https://www.linkedin.com/in/challa-lakshmi-narasimha-89954b284/' target='_blank'>
                     <IonIcon icon={logoLinkedin} />
                   </a>
                 </div>

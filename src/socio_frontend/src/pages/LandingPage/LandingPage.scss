@@ -227,7 +227,6 @@
 
     .team-section.desktop {
         display: flex;
-        border: solid 1px red;
 
         .one,
         .two,
@@ -254,11 +253,20 @@
 
             img {
                 width: 200px;
+                height: 200px;
                 aspect-ratio: 1 / 1;
                 border-top-left-radius: 20px;
                 border-top-right-radius: 20px;
                 border-right: solid 2px #000000;
                 box-shadow: 4px 0 8px var(--ion-color-primary, 0.3);
+            }
+
+            .reverse-image {
+                transform: scaleX(-1);
+                border-top-left-radius: 20px;
+                border-top-right-radius: 20px;
+                border-left: solid 2px #000000;
+                box-shadow: -4px 0 8px var(--ion-color-primary, 0.3);
             }
 
             h3,
@@ -503,7 +511,7 @@
                 animation: scrollTeam 18s infinite linear 15s; // Start delay for the sixth member
             }
         }
-        
+
         ion-footer {
 
             #footer-p {
@@ -528,7 +536,7 @@
     }
 }
 
-@media screen and (min-width: 768px) and (max-width: 1024px)  {
+@media screen and (min-width: 768px) and (max-width: 1024px) {
     #team {
         position: relative;
         overflow: hidden;

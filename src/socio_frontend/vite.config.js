@@ -33,6 +33,7 @@ export default defineConfig({
       exclude: ['swipe-back-GYML7AOM']
     }
   },
+  assetsInclude: ["**/*.JPG"],
   server: {
     proxy: {
       "/api": {
