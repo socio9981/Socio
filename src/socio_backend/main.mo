@@ -187,6 +187,10 @@ actor {
     * Custom functions starts
     */
 
+  public shared (msg) func getIdentity() : async Text {
+    return Principal.toText(msg.caller);
+  };
+
   public shared func getUserCount() : async Nat {
     return users.size();
   };

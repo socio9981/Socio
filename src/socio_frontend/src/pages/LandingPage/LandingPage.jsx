@@ -32,8 +32,8 @@ import { logInOutline, logoInstagram, logoLinkedin, logoX, play } from 'ionicons
 import { Preferences } from '@capacitor/preferences';
 import './LandingPage.scss';
 import Login from '../../components/Login/Login';
-import { Actor } from '@dfinity/agent';
-import { socio_backend } from '../../../../declarations/socio_backend';
+import { HttpAgent } from '@dfinity/agent';
+import { createActor, socio_backend } from '../../../../declarations/socio_backend';
 
 export default function LandingPage() {
   const [logo, setLogo] = useState(null);
@@ -41,8 +41,35 @@ export default function LandingPage() {
   const { screenType, actor } = state;
 
   const [count, setCount] = useState(null);
+  const [identity, setIdentity] = useState(null);
+
+  let actor1 = socio_backend;
+
+  async function localLogin() {
+    let host1 = null;
+    if (process.env.DFX_NETWORK === "local") {
+      host1 = 'http://localhost:4943';
+    } else {
+      host1 = 'https://ic0.app';
+    }
+    const agent = new HttpAgent({ host: host1 });
+
+    if (process.env.DFX_NETWORK !== "ic") {
+      await agent.fetchRootKey();
+    }
+
+    actor1 = createActor(process.env.CANISTER_ID_SOCIO_BACKEND, {
+      agent,
+    });
+
+    console.log("actor1:", actor1);
+
+  }
 
   useEffect(() => {
+
+    localLogin();
+
     const fetchTheme = async () => {
       const { value } = await Preferences.get({ key: 'color-theme' });
       const theme = value || 'dark'; // Default to 'dark' if no theme is set
@@ -52,12 +79,23 @@ export default function LandingPage() {
     fetchTheme();
 
     const updateUserCount = async () => {
-      const value = await socio_backend.getUserCount();
+      if(actor1 === null) return;
+      const identity = await actor1.getIdentity();
+      setIdentity(identity);
+      const value = await actor1.getUserCount();
       setCount(Number(value));
     };
     updateUserCount();
 
   }, []);
+
+  useEffect(() => {
+    console.log("user count:", count);
+  }, [count]);
+
+  useEffect(() => {
+    console.log("Identity:", identity);
+  }, [identity]);
 
   return (
     <IonPage id='LandingPage'>
@@ -364,7 +402,7 @@ export default function LandingPage() {
             </div>
 
             <div className="team-member six">
-              
+
               <img src={Narasimha} alt="Member 6" className="team-image" />
               <div className="team-text">
                 <h3>Narasimha</h3>

@@ -1,0 +1,12 @@
+{
+    "plugins": {
+      "CapacitorHttp": {
+        "enabled": true
+      }
+    },
+    "server": {
+      "androidScheme": "https",
+      "iosScheme": "https",
+      "hostname": "localhost"
+    }
+  }
