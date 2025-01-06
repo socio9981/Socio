@@ -33,14 +33,14 @@ export default function RegistrationPage() {
             message: "Registering...",
         });
         let binaryProfilePic = null;
-        const usernameRegex = /^[a-zA-Z][a-zA-Z0-9_]{2,14}$/;
-        const displaynameRegex = /^[a-zA-Z][a-zA-Z0-9_]{4,14}$/;
+        const usernameRegex = /^[a-zA-Z][a-zA-Z0-9_]{2,14}$/; // 3 to 15 characters
+        const displaynameRegex = /^[a-zA-Z][a-zA-Z0-9_]{2,29}$/; // 3 to 30 characters
         const bioMaxLength = 150;
 
         // Validity checks
         if (!usernameRegex.test(username)) {
             presentToast({
-                message: 'Username must be alphanumeric and between 3 to 15 characters.',
+                message: 'Username accepts 3 to 15 characters/numbers and must start with a letter.',
                 duration: 3000,
                 color: 'warning',
             });
@@ -50,7 +50,7 @@ export default function RegistrationPage() {
 
         if (!displaynameRegex.test(displayname)) {
             presentToast({
-                message: 'Display name must be between 3 to 30 characters.',
+                message: 'Display name accepts 3 to 30 characters/numbers and must start with a letter.',
                 duration: 3000,
                 color: 'warning',
             });

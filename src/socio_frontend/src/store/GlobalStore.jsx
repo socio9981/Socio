@@ -5,7 +5,7 @@ const initialState = {
   screenType: 'desktop',
   actor: null,
   loggedIn: false,
-  user: null
+  user: null,
 };
 
 const reducer = (state, action) => {

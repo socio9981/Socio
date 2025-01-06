@@ -11,7 +11,6 @@ import HashMap "mo:base/HashMap";
 import Principal "mo:base/Principal";
 import Iter "mo:base/Iter";
 import Array "mo:base/Array";
-import Debug "mo:base/Debug";
 
 import socio_media "canister:socio_media";
 import socio_chats "canister:socio_chats";

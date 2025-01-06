@@ -62,8 +62,6 @@ export default function LandingPage() {
       agent,
     });
 
-    console.log("actor1:", actor1);
-
   }
 
   useEffect(() => {
@@ -88,14 +86,6 @@ export default function LandingPage() {
     updateUserCount();
 
   }, []);
-
-  useEffect(() => {
-    console.log("user count:", count);
-  }, [count]);
-
-  useEffect(() => {
-    console.log("Identity:", identity);
-  }, [identity]);
 
   return (
     <IonPage id='LandingPage'>
@@ -141,8 +131,12 @@ export default function LandingPage() {
               <p id="title_socio">Socio</p>
               <p className="tagline typewriter">Privacy Even While Social.</p>
               <IonButtons className="button-container">
+              {
                 <Login />
-                <button className="btn tutorial-btn">
+              }
+                <button className="btn tutorial-btn" onClick={() => {
+                  window.open('https://youtu.be/JrYc4Zizk68', '_blank');
+                }}>
                   <IonIcon icon={play} slot="start" />
                   Tutorial
                 </button>
@@ -343,10 +337,10 @@ export default function LandingPage() {
                 <h3>Mukeswar</h3>
                 <p>Co - Founder</p>
                 <div className="team-links">
-                  <a href='https://x.com/RathanRaju7' target='_blank'>
+                  <a href='https://x.com/mukeswar94129' target='_blank'>
                     <IonIcon icon={logoX} />
                   </a>
-                  <a href='https://linkedin.com/in/rathanraju' target='_blank'>
+                  <a href='https://linkedin.com/in/mukeswar-vasana-723817278/' target='_blank'>
                     <IonIcon icon={logoLinkedin} />
                   </a>
                 </div>
