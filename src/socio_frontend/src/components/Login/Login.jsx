@@ -8,6 +8,9 @@ import { useIonLoading, useIonToast, IonButton } from "@ionic/react";
 import { useState, useEffect, useContext } from "react";
 import { GlobalContext } from "../../store/GlobalStore";
 
+import { authWithII } from "./auth";
+import { Capacitor } from "@capacitor/core";
+ 
 export default function Login() {
 
     const { dispatch } = useContext(GlobalContext);
@@ -32,56 +35,64 @@ export default function Login() {
         }
     }, []);
 
-    async function login(authClient) {
-        setInLogin(true);
-        await present({ message: "Logging in..." });
-        const identity = authClient.getIdentity();
-        const agent = new HttpAgent({ identity });
-        actor1 = createActor(process.env.CANISTER_ID_SOCIO_BACKEND, {
-            agent,
-        });
-
-        setActor(actor1);
-        const currentUser = await actor1.getUser();
-        dispatch({ type: 'SET_ACTOR', payload: actor1 });
-        if (currentUser.length === 0) {
-            dispatch({ type: 'SET_USER', payload: currentUser });
-        } else {
-            dispatch({ type: 'SET_USER', payload: currentUser[0] });
-        }
-
-        dispatch({ type: 'SET_LOGGED_IN', payload: true });
-        setInLogin(false);
-        dismiss();
-    };
-
     async function handleLogin(e) {
         e.preventDefault();
-        // creating an authentication client.
-        let authClient = await AuthClient.create();
-        if (await authClient.isAuthenticated()) {
-            await login(authClient);
-        } else {
-            try {
-                await new Promise((resolve, reject) => {
-                    authClient.login({
-                        identityProvider: II_URL,
-                        onSuccess: resolve,
-                        onError: reject
-                    })
-                })
-
-                await login(authClient);
-            } catch (error) {
-                console.error('An error occurred during login:', error);
-                presentToast({
-                    message: "An error occurred during login",
-                    duration: 3000,
-                    color: "danger",
-                })
-            }
+        await present({ message: "Logging in..." });
+      
+        try {
+          let identity;
+          if (Capacitor.isNativePlatform()) {
+            identity = await nativeLogin();
+          } else {
+            identity = await webLogin();
+          }
+      
+          const agent = new HttpAgent({ identity });
+          const actor = createActor(process.env.CANISTER_ID_SOCIO_BACKEND, { agent });
+      
+          setActor(actor);
+          const currentUser = await actor.getUser();
+          dispatch({ type: 'SET_ACTOR', payload: actor });
+          dispatch({ type: 'SET_USER', payload: currentUser.length ? currentUser[0] : currentUser });
+          dispatch({ type: 'SET_LOGGED_IN', payload: true });
+      
+          dismiss();
+        } catch (error) {
+          console.error('Login failed:', error);
+          presentToast({
+            message: "An error occurred during login",
+            duration: 3000,
+            color: "danger",
+          });
+        } finally {
+          setInLogin(false);
         }
-    }
+      }
+      
+      async function webLogin() {
+        const authClient = await AuthClient.create();
+        if (await authClient.isAuthenticated()) {
+          return authClient.getIdentity();
+        }
+        await new Promise((resolve, reject) => {
+          authClient.login({
+            identityProvider: II_URL,
+            onSuccess: resolve,
+            onError: reject
+          });
+        });
+        return authClient.getIdentity();
+      }
+      
+      async function nativeLogin() {
+        const sessionIdentity = Ed25519KeyIdentity.generate();
+        const { identity } = await authWithII({
+          url: II_URL,
+          sessionIdentity,
+        });
+        console.log("Identity:",identity);
+        return identity;
+      }
 
     return (
         <button className="btn login-btn" id="Login" disabled={inLogin} onClick={(e) => handleLogin(e)}>

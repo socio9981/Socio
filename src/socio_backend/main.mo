@@ -11,7 +11,6 @@ import HashMap "mo:base/HashMap";
 import Principal "mo:base/Principal";
 import Iter "mo:base/Iter";
 import Array "mo:base/Array";
-import Debug "mo:base/Debug";
 
 import socio_media "canister:socio_media";
 import socio_chats "canister:socio_chats";
@@ -186,6 +185,10 @@ actor {
   /**
     * Custom functions starts
     */
+
+  public shared (msg) func getIdentity() : async Text {
+    return Principal.toText(msg.caller);
+  };
 
   public shared func getUserCount() : async Nat {
     return users.size();

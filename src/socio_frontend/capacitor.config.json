@@ -1,0 +1,26 @@
+{
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  },
+  "scheme": "io.ionic.starter",
+  "android": {
+    "intentFilters": [
+      {
+        "action": "VIEW",
+        "autoVerify": true,
+        "data": {
+          "scheme": "io.ionic.starter"
+        },
+        "category": [
+          "BROWSABLE",
+          "DEFAULT"
+        ]
+      }
+    ]
+  },
+  "ios": {
+    "scheme": "io.ionic.starter"
+  }
+}

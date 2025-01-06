@@ -32,8 +32,8 @@ import { logInOutline, logoInstagram, logoLinkedin, logoX, play } from 'ionicons
 import { Preferences } from '@capacitor/preferences';
 import './LandingPage.scss';
 import Login from '../../components/Login/Login';
-import { Actor } from '@dfinity/agent';
-import { socio_backend } from '../../../../declarations/socio_backend';
+import { HttpAgent } from '@dfinity/agent';
+import { createActor, socio_backend } from '../../../../declarations/socio_backend';
 
 export default function LandingPage() {
   const [logo, setLogo] = useState(null);
@@ -41,8 +41,33 @@ export default function LandingPage() {
   const { screenType, actor } = state;
 
   const [count, setCount] = useState(null);
+  const [identity, setIdentity] = useState(null);
+
+  let actor1 = socio_backend;
+
+  async function localLogin() {
+    let host1 = null;
+    if (process.env.DFX_NETWORK === "local") {
+      host1 = 'http://localhost:4943';
+    } else {
+      host1 = 'https://ic0.app';
+    }
+    const agent = new HttpAgent({ host: host1 });
+
+    if (process.env.DFX_NETWORK !== "ic") {
+      await agent.fetchRootKey();
+    }
+
+    actor1 = createActor(process.env.CANISTER_ID_SOCIO_BACKEND, {
+      agent,
+    });
+
+  }
 
   useEffect(() => {
+
+    localLogin();
+
     const fetchTheme = async () => {
       const { value } = await Preferences.get({ key: 'color-theme' });
       const theme = value || 'dark'; // Default to 'dark' if no theme is set
@@ -52,7 +77,10 @@ export default function LandingPage() {
     fetchTheme();
 
     const updateUserCount = async () => {
-      const value = await socio_backend.getUserCount();
+      if(actor1 === null) return;
+      const identity = await actor1.getIdentity();
+      setIdentity(identity);
+      const value = await actor1.getUserCount();
       setCount(Number(value));
     };
     updateUserCount();
@@ -103,8 +131,12 @@ export default function LandingPage() {
               <p id="title_socio">Socio</p>
               <p className="tagline typewriter">Privacy Even While Social.</p>
               <IonButtons className="button-container">
+              {
                 <Login />
-                <button className="btn tutorial-btn">
+              }
+                <button className="btn tutorial-btn" onClick={() => {
+                  window.open('https://youtu.be/JrYc4Zizk68', '_blank');
+                }}>
                   <IonIcon icon={play} slot="start" />
                   Tutorial
                 </button>
@@ -305,10 +337,10 @@ export default function LandingPage() {
                 <h3>Mukeswar</h3>
                 <p>Co - Founder</p>
                 <div className="team-links">
-                  <a href='https://x.com/RathanRaju7' target='_blank'>
+                  <a href='https://x.com/mukeswar94129' target='_blank'>
                     <IonIcon icon={logoX} />
                   </a>
-                  <a href='https://linkedin.com/in/rathanraju' target='_blank'>
+                  <a href='https://linkedin.com/in/mukeswar-vasana-723817278/' target='_blank'>
                     <IonIcon icon={logoLinkedin} />
                   </a>
                 </div>
@@ -364,7 +396,7 @@ export default function LandingPage() {
             </div>
 
             <div className="team-member six">
-              
+
               <img src={Narasimha} alt="Member 6" className="team-image" />
               <div className="team-text">
                 <h3>Narasimha</h3>

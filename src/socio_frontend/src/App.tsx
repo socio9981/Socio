@@ -36,9 +36,14 @@ import { useEffect, useState, useContext } from 'react';
 import { GlobalContext, GlobalProvider } from './store/GlobalStore.jsx';
 import { Preferences } from '@capacitor/preferences';
 import RegistrationPage from './pages/RegistrationPage/RegistrationPage.jsx';
+
+import { App as CapApp } from '@capacitor/app';
+import { Browser } from '@capacitor/browser';
+
 setupIonicReact();
 
 const App: React.FC = () => {
+
   const { state, dispatch } = useContext(GlobalContext);
   const { theme, actor, loggedIn, user } = state;
 
@@ -68,6 +73,31 @@ const App: React.FC = () => {
     return () => window.removeEventListener('resize', updateScreenType);
   }, [dispatch]);
 
+  useEffect(() => {
+    CapApp.addListener('appUrlOpen', (event) => {
+      const url = event.url;
+      
+      // Assuming the redirection URL contains delegation data in query parameters
+      if (url.startsWith('io.ionic.starter://')) {
+        // Parse the URL to extract the delegation token or relevant data
+        const urlParams = new URLSearchParams(url.split('?')[1]);
+        const delegationToken = urlParams.get('delegationToken'); // Example parameter
+
+        // You may want to close the browser here if needed
+        Browser.close();
+
+        // Now use this token to complete the authentication in your app
+        handleAuthWithDelegation(delegationToken);
+      }
+    });
+  }, []);
+
+  const handleAuthWithDelegation = (delegationToken: string | null) => {
+    // Use the delegation token to authenticate the user in the app
+    console.log('Received delegation token:', delegationToken);
+  };
+
+
   const toggleTheme = async () => {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
     document.body.setAttribute('color-theme', newTheme);
@@ -79,7 +109,7 @@ const App: React.FC = () => {
     <IonApp>
       {
         loggedIn ?
-          (user !== null && user.length !== 0)  ?
+          (user !== null && user.length !== 0) ?
             <Home toggleTheme={toggleTheme} />
             : <RegistrationPage />
           : <LandingPage />
